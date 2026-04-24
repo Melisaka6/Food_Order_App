@@ -1,0 +1,60 @@
+{
+  "meals": [
+    {
+      "id": "m1",
+      "name": "Izgara Tavuk Bowl",
+      "description": "Izgara tavuk, basmati pilav ve mevsim sebzeleri.",
+      "price": 185,
+      "category": "Protein"
+    },
+    {
+      "id": "m2",
+      "name": "Cheeseburger Menu",
+      "description": "Dana burger, patates ve icecek iceren klasik menu.",
+      "price": 210,
+      "category": "Burger"
+    },
+    {
+      "id": "m3",
+      "name": "Margarita Pizza",
+      "description": "Domates sos, mozzarella ve feslegenli ince hamur pizza.",
+      "price": 240,
+      "category": "Pizza"
+    },
+    {
+      "id": "m4",
+      "name": "Tavuklu Sezar Salata",
+      "description": "Marul, kruton, parmesan ve ozel Sezar sos.",
+      "price": 165,
+      "category": "Salata"
+    },
+    {
+      "id": "m5",
+      "name": "Penne Alfredo",
+      "description": "Kremali Alfredo sos, mantar ve parmesan peyniri.",
+      "price": 195,
+      "category": "Makarna"
+    },
+    {
+      "id": "m6",
+      "name": "Firin Sufle",
+      "description": "Yogun cikolatali sicak sufle tatlisi.",
+      "price": 95,
+      "category": "Tatli"
+    },
+    {
+      "id": "m7",
+      "name": "Limonata",
+      "description": "Taze nane ile servis edilen ev yapimi limonata.",
+      "price": 45,
+      "category": "Icecek"
+    },
+    {
+      "id": "m8",
+      "name": "Taco Box",
+      "description": "Etli taco, guacamole ve misir cipsi esliginde.",
+      "price": 205,
+      "category": "Sokak Lezzeti"
+    }
+  ]
+}

@@ -1,0 +1,56 @@
+.wrapper {
+  display: grid;
+  gap: 18px;
+  padding: 22px;
+}
+
+.heading {
+  display: grid;
+  gap: 10px;
+}
+
+.heading h2,
+.heading p {
+  margin: 0;
+}
+
+.heading p:last-child {
+  color: var(--muted);
+}
+
+.form {
+  display: grid;
+  gap: 14px;
+}
+
+.form label {
+  display: grid;
+  gap: 8px;
+}
+
+.form span {
+  font-weight: 700;
+}
+
+.form input,
+.form textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border: 2px solid rgba(22, 50, 61, 0.12);
+  border-radius: 16px;
+  background: #ffffff;
+  resize: vertical;
+}
+
+.form input:focus,
+.form textarea:focus {
+  outline: none;
+  border-color: rgba(13, 126, 136, 0.4);
+  box-shadow: 0 0 0 4px rgba(114, 227, 232, 0.18);
+}
+
+.error {
+  margin: 0;
+  color: var(--danger);
+  font-weight: 700;
+}

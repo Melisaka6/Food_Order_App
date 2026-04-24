@@ -1,0 +1,19 @@
+.wrapper {
+  display: grid;
+  gap: 12px;
+  padding: 24px;
+}
+
+.wrapper h2,
+.wrapper p {
+  margin: 0;
+}
+
+.wrapper p:last-of-type {
+  color: var(--muted);
+}
+
+.eyebrow {
+  color: var(--danger);
+  font-weight: 700;
+}
