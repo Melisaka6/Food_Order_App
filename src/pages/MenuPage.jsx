@@ -1,33 +1,14 @@
-import { useEffect, useMemo, useState } from "react";
+import {useMemo, useState } from "react";
 import ErrorState from "../components/ErrorState";
 import MealCard from "../components/MealCard";
 import PageLoader from "../components/PageLoader";
-import { fetchMeals } from "../services/mealService";
 import styles from "./MenuPage.module.css";
+import { useMeals } from "../hooks/useMeals";
 
 function MenuPage({ onAddToCart }) {
-  const [meals, setMeals] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  const{meals,loading,error,refetch} = useMeals();
   const [searchTerm, setSearchTerm] = useState("");
 
-  async function loadMeals() {
-    setLoading(true);
-    setError("");
-
-    try {
-      const response = await fetchMeals();
-      setMeals(response);
-    } catch (requestError) {
-      setError(requestError.message || "Menü verisi alınamadı.");
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  useEffect(() => {
-    loadMeals();
-  }, []);
 
   const filteredMeals = useMemo(() => {
     const normalizedSearch = searchTerm.trim().toLocaleLowerCase("tr-TR");
