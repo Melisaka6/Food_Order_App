@@ -1,4 +1,4 @@
-const STORAGE_KEY = "food-order-bootcamp-orders";
+const STORAGE_KEY = "food-order";
 
 function wait(ms) {
   return new Promise((resolve) => {

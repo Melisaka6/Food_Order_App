@@ -13,21 +13,22 @@ function MenuPage({ onAddToCart }) {
   const filteredMeals = useMemo(() => {
     const normalizedSearch = searchTerm.trim().toLocaleLowerCase("tr-TR");
 
-    if (!normalizedSearch) {
+    if (!normalizedSearch) { //kullanici filtreleme yapmadıysa
       return meals;
     }
 
-    return meals.filter((meal) => {
+    return meals.filter((meal) => { //meal filtrelediyse
       const mealName = meal.name.toLocaleLowerCase("tr-TR");
       const mealCategory = meal.category.toLocaleLowerCase("tr-TR");
 
       return (
-        mealName.includes(normalizedSearch) ||
+        mealName.includes(normalizedSearch) ||  //search ettiği meals da var mı ?
         mealCategory.includes(normalizedSearch)
       );
     });
   }, [meals, searchTerm]);
 
+  //category sayısını hesaplama
   const categoryCount = useMemo(
     () => new Set(meals.map((meal) => meal.category)).size,
     [meals],
