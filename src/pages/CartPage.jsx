@@ -1,76 +1,133 @@
+import { useCallback, useState } from "react";
+import { Link } from "react-router-dom";
 import CartItem from "../components/CartItem";
 import OrderForm from "../components/OrderForm";
-import styles from "./CartPage.module.css";
+import { useCart } from "../hooks/useCart";
+import styles from './CartPage.module.css';
 
-function CartPage({
-  items,
-  totalAmount,
-  onDecrease,
-  onIncrease,
-  onOrderSuccess,
-  onRemove,
-}) {
-  return (
-    <div className={styles.layout}>
-      <section className={`${styles.summary} panel`}>
-        <div className="section-heading">
-          <p className="pill">Cart</p>
-          <h2>Sepet</h2>
-          <p>Seçtiğin ürünleri gözden geçirip siparişi tamamlayabilirsin.</p>
-        </div>
+function CartPage() {
+    const {
+        items,
+        totalAmount,
+        totalItems,
+        addItem,
+        decreaseItem,
+        removeItem,
+        clearCart
+    } = useCart();
 
-        <div className={styles.metrics}>
-          <div>
-            <span>Ürün adedi</span>
-            <strong>{items.reduce((total, item) => total + item.quantity, 0)}</strong>
-          </div>
-          <div>
-            <span>Toplam tutar</span>
-            <strong>₺{totalAmount.toFixed(2)}</strong>
-          </div>
-        </div>
-      </section>
+    const [showCheckout, setShowCheckout] = useState(false);
+    const [lastOrderId, setLastOrderId] = useState("");
 
-      <section className={styles.content}>
-        <div className={`${styles.items} panel`}>
-          <div className="section-heading">
-            <h3>Sepettekiler</h3>
-            <p>
-              {items.length > 0
-                ? "Adetleri güncelleyebilir veya ürünü çıkarabilirsin."
-                : "Henüz sepete ürün eklenmedi."}
-            </p>
-          </div>
+    const handleIncrease = useCallback(
+        (item) => {
+            addItem(item)
+        }, [addItem]
+    );
 
-          {items.length > 0 ? (
-            <div className={styles.itemList}>
-              {items.map((item) => (
-                <CartItem
-                  key={item.id}
-                  item={item}
-                  onDecrease={onDecrease}
-                  onIncrease={onIncrease}
-                  onRemove={onRemove}
+    const handleOrderSuccess = useCallback(
+        (createdOrder) => {
+            setLastOrderId(createdOrder.id);
+            clearCart();
+            setShowCheckout(false);
+        }, [clearCart]
+    );
+
+    const hasItems = items.length > 0;
+
+    return (
+        <div className="page-section">
+            <section className={`${styles.hero} panel`}>
+                <div className="section-heading">
+                    <p className="pill">Cart Context</p>
+                    <h2>Bu sayfa tamamen global state üstünden çalışıyor.</h2>
+                    <p>
+                        Menü sayfasında eklenen ürünler burada yeniden fetch edilmeden
+                        görüntülenir. Bu da Context API kullanımının en temel örneklerinden biridir.
+                    </p>
+                </div>
+
+                <div className={styles.summaryCards}>
+                    <div>
+                        <strong>{totalItems}</strong>
+                        <span>Toplam adet</span>
+                    </div>
+                    <div>
+                        <strong>₺{totalAmount.toFixed(2)}</strong>
+                        <span>Genel toplam</span>
+                    </div>
+                </div>
+            </section>
+
+            {!hasItems ? (
+                <section className={`${styles.emptyState} panel`}>
+                    <h2>Sepet şu an boş.</h2>
+                    <p>Önce menü sayfasına gidip ürün ekleyebilirsin.</p>
+
+                    {lastOrderId ? (
+                        <p className={styles.successText}>
+                            Son oluşturulan sipariş: <strong>{lastOrderId}</strong>
+                        </p>
+                    ) : null}
+
+                    <div className={styles.emptyActions}>
+                        <Link className="button button--brand" to="/">
+                            Menüye Git
+                        </Link>
+                    </div>
+                </section>
+            ) : (
+                <section className={styles.content}>
+                    <div className={styles.items}>
+                        {items.map((item) => (
+                            <CartItem
+                                key={item.id}
+                                item={item}
+                                onIncrease={handleIncrease}
+                                onDecrease={decreaseItem}
+                                onRemove={removeItem}
+                            />
+                        ))}
+                    </div>
+
+                    <aside className={`${styles.sidebar} panel`}>
+                        <div className={styles.sidebarBlock}>
+                            <h3>Sipariş Özeti</h3>
+                            <p>
+                                {totalItems} ürün, toplam <strong>₺{totalAmount.toFixed(2)}</strong>
+                            </p>
+                        </div>
+
+                        <div className={styles.sidebarButtons}>
+                            <button
+                                type="button"
+                                className="button button--brand"
+                                onClick={() => setShowCheckout((current) => !current)}
+                            >
+                                {showCheckout ? "Formu Gizle" : "Siparişe Geç"}
+                            </button>
+
+                            <button
+                                type="button"
+                                className="button button--danger"
+                                onClick={clearCart}
+                            >
+                                Sepeti Temizle
+                            </button>
+                        </div>
+                    </aside>
+                </section>
+            )}
+
+            {hasItems && showCheckout ? (
+                <OrderForm
+                    items={items}
+                    totalAmount={totalAmount}
+                    onSuccess={handleOrderSuccess}
                 />
-              ))}
-            </div>
-          ) : (
-            <div className={styles.emptyState}>
-              <p>Menü sekmesine dönüp bir ürün ekleyerek başlayabilirsin.</p>
-            </div>
-          )}
+            ) : null}
         </div>
-
-        <div className={styles.formColumn}>
-          <OrderForm
-            items={items}
-            totalAmount={totalAmount}
-            onSuccess={onOrderSuccess}
-          />
-        </div>
-      </section>
-    </div>
-  );
+    );
 }
 
 export default CartPage;

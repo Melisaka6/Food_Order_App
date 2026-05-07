@@ -1,6 +1,7 @@
 import { memo } from "react";
 import styles from "./MealCard.module.css";
 
+// React.memo: Parent render olsa bile props aynıysa kartı tekrar çizmez.
 const MealCard = memo(function MealCard({ meal, onAdd }) {
   return (
     <article className={styles.card}>
@@ -12,11 +13,7 @@ const MealCard = memo(function MealCard({ meal, onAdd }) {
       <h3>{meal.name}</h3>
       <p>{meal.description}</p>
 
-      <button
-        type="button"
-        className="button button--brand"
-        onClick={() => onAdd(meal)}
-      >
+      <button type="button" className="button button--brand" onClick={() => onAdd(meal)}>
         Sepete Ekle
       </button>
     </article>

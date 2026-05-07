@@ -6,6 +6,7 @@ function wait(ms) {
   });
 }
 
+
 function readOrdersFromStorage() {
   if (typeof window === "undefined") {
     return [];

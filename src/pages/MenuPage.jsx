@@ -4,10 +4,15 @@ import MealCard from "../components/MealCard";
 import PageLoader from "../components/PageLoader";
 import styles from "./MenuPage.module.css";
 import { useMeals } from "../hooks/useMeals";
+import { useCart } from "../hooks/useCart";
 
 function MenuPage({ onAddToCart }) {
-  const{meals,loading,error,refetch} = useMeals();
+  const { meals, loading, error, refetch } = useMeals();
+  const { addItem } = useCart();
   const [searchTerm, setSearchTerm] = useState("");
+
+  // `App.jsx` prop vermese bile buton çalışsın diye fallback kullanıyoruz.
+  const handleAddToCart = onAddToCart ?? addItem;
 
 
   const filteredMeals = useMemo(() => {
@@ -73,7 +78,7 @@ function MenuPage({ onAddToCart }) {
         <ErrorState
           title="Menü yüklenemedi"
           message={error}
-          onRetry={loadMeals}
+          onRetry={refetch}
         />
       ) : null}
 
@@ -81,7 +86,7 @@ function MenuPage({ onAddToCart }) {
         filteredMeals.length > 0 ? (
           <section className={styles.grid}>
             {filteredMeals.map((meal) => (
-              <MealCard key={meal.id} meal={meal} onAdd={onAddToCart} />
+              <MealCard key={meal.id} meal={meal} onAdd={handleAddToCart} />
             ))}
           </section>
         ) : (

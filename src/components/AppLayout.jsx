@@ -1,47 +1,44 @@
+import { NavLink, Outlet } from "react-router-dom";
+import { useCart } from "../hooks/useCart";
 import styles from "./AppLayout.module.css";
 
-const navigationItems = [
-  { id: "menu", label: "Menü" },
-  { id: "cart", label: "Sepet" },
-  { id: "history", label: "Geçmiş" },
-];
+function getLinkClassName({ isActive }) {
+    return isActive ? `${styles.link} ${styles.linkActive}` : styles.link;
+}
 
-function AppLayout({ activeView, cartCount, children, onNavigate }) {
-  return (
-    <div className={styles.shell}>
-      <header className={styles.header}>
-        <div className={styles.brand}>
-          <div>
-            <p className="pill">React JavaScript Demo</p>
-            <h1>Food Order App</h1>
-            <p>Menü, sepet ve sipariş geçmişini tek akışta yöneten sade bir React uygulaması.</p>
-          </div>
+function AppLayout() {
+    const { totalItems } = useCart();
+
+    return (
+        <div className={styles.shell}>
+            <header className={styles.header}>
+                <div className={styles.brand}>
+                    <p className="pill">React Bootcamp Demo</p>
+                    <div>
+                        <h1>Food Order App</h1>
+                        <p>Context, fetch ve routing konularini tek projede toplar.</p>
+                    </div>
+                </div>
+
+                <nav className={styles.nav}>
+                    <NavLink to="/" className={getLinkClassName} end>
+                        Menü
+                    </NavLink>
+                    <NavLink to="/cart" className={getLinkClassName}>
+                        Sepet
+                        <span className={styles.badge}>{totalItems}</span>
+                    </NavLink>
+                    <NavLink to="/history" className={getLinkClassName}>
+                        Geçmiş
+                    </NavLink>
+                </nav>
+            </header>
+
+            <main className={styles.main}>
+                <Outlet />
+            </main>
         </div>
-
-        <nav className={styles.nav} aria-label="Sayfa sekmeleri">
-          {navigationItems.map((item) => {
-            const isActive = item.id === activeView;
-
-            return (
-              <button
-                key={item.id}
-                type="button"
-                className={`${styles.link} ${isActive ? styles.linkActive : ""}`.trim()}
-                onClick={() => onNavigate(item.id)}
-              >
-                {item.label}
-                {item.id === "cart" ? (
-                  <span className={styles.badge}>{cartCount}</span>
-                ) : null}
-              </button>
-            );
-          })}
-        </nav>
-      </header>
-
-      <main className={styles.main}>{children}</main>
-    </div>
-  );
+    );
 }
 
 export default AppLayout;
