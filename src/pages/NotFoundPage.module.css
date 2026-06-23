@@ -1,0 +1,15 @@
+.wrapper {
+  display: grid;
+  place-items: start;
+  gap: 14px;
+  padding: 28px;
+}
+
+.wrapper h2,
+.wrapper p {
+  margin: 0;
+}
+
+.wrapper p:last-of-type {
+  color: var(--muted);
+}
